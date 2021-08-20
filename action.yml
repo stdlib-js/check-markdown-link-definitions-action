@@ -1,0 +1,18 @@
+name: 
+description: 'Find all broken links in the files of a directory'
+inputs:
+  directory:
+    description: 'Directory in which to to search for links'
+    required: false
+outputs:
+  links:
+    description: "New-line separated list of broken links"
+    value: ${{ steps.broken-links.outputs.links }}
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.who-to-greet }}.
+      shell: bash
+    - id: broken-links
+      run: echo "::set-output name=links::$( ${{ github.action_path }}/broken_links.sh ${{ inputs.directory }} )"
+      shell: bash

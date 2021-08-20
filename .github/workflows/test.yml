@@ -1,0 +1,13 @@
+on: [push]
+
+jobs:
+  find_broken_links:
+    runs-on: ubuntu-latest
+    name: Find broken links in the current directory
+    steps:
+      - uses: actions/checkout@v2
+      - id: broken-links
+        uses: ./
+        with:
+      - run: echo ${{ steps.broken-links.outputs.links }}
+        shell: bash
