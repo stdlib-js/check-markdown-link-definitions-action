@@ -23,5 +23,8 @@ jobs:
           exclude: https://github.com/stdlib-js/stdlib/tree/develop/lib/node_modules
       # Print out the results:
       - run: |
-          echo ${{ steps.broken-links.outputs.links }}
+          echo "Broken links:"
+          echo -e ${{ steps.broken-links.outputs.failures }}
+          echo "Warnings:"
+          echo -e ${{ steps.broken-links.outputs.warnings }}
           echo Status: ${{ steps.broken-links.outputs.status }}

@@ -17,9 +17,12 @@ inputs:
     required: false
     default: '300, 301, 302, 303, 304, 305, 306, 307, 308'
 outputs:
-  links:
-    description: "New-line separated list of broken links"
+  failures:
+    description: "New-line separated list of failing URLs indicating broken links"
     value: ${{ steps.broken-links.outputs.links }}
+  warnings:
+    description: "New-line separated list of warnings"
+    value: ${{ steps.broken-links.outputs.warnings }}
   status:
     description: "Status of the completed action (either `success` or `failure`)"
     value: ${{ steps.action-status.outputs.status }}
@@ -34,7 +37,7 @@ runs:
       shell: bash
     - id: action-status
       run: |
-        if [ ${{ steps.broken-links.outputs.links }} == '' ]
+        if [ ${{ steps.broken-links.outputs.failures }} == '' ]
         then
             echo "::set-output name=status::success"
         else

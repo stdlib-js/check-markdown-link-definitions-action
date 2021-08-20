@@ -30,7 +30,10 @@ fi
 FILES=$(find $DIR -name '*.md' -type f)
 
 # Define list of broken links:
-BROKEN_LINKS=""
+FAILURES=""
+
+# Define list of warnings:
+WARNINGS=""
 
 # Loop through all files...
 for FILE in $FILES; do
@@ -53,18 +56,25 @@ for FILE in $FILES; do
         if [[ $SUCCESS_CODES != *"$STATUS"* ]]; then
             echo -e "Status code for $URL is $STATUS \u274C"
             ## Add the URL to the list of broken links if not already there:
-            if [[ $BROKEN_LINKS != *"$URL"* ]]; then
-                BROKEN_LINKS="$BROKEN_LINKS $URL\n"
+            if [[ $FAILURES != *"$URL"* ]]; then
+                FAILURES="$FAILURES $URL\n"
             fi
         else 
             if [[ $WARNING_CODES != *"$STATUS"* ]]; then
-                echo -e "Status code for $URL is $STATUS \u26A0"
-            else
                 echo -e "Status code for $URL is $STATUS \u2705"
+                ## Add the URL to the list of warnings if not already there:
+                if [[ $WARNINGS != *"$URL"* ]]; then
+                    WARNINGS="$WARNINGS $URL\n"
+                fi
+            else
+                echo -e "Status code for $URL is $STATUS \u26A0"
             fi
         fi
     done
 done
 
-# Print the list of broken links to the console
-echo "::set-output name=links::$(echo -e $BROKEN_LINKS)"
+# Assign the list indicating broken links to the `failures` output variable:
+echo "::set-output name=failures::$(echo -e $FAILURES)"
+
+# Assign the list indicating warnings to the `warnings` output variable:
+echo "::set-output name=warnings::$(echo -e $WARNINGS)"
