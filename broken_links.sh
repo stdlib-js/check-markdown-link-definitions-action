@@ -148,20 +148,21 @@ for FILE in $FILES; do
         STATUS_DESCR=`status_code_to_string $STATUS`
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [[ $SUCCESS_CODES != *"$STATUS"* ]]; then
-            echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u274C"
-            ## Add the URL to the list of broken links if not already there:
-            if [[ $FAILURES != *"$URL"* ]]; then
-                # Append comma if not empty:
-                if [ "$FAILURES" != "[" ]; then
-                    FAILURES="$FAILURES,"
-                fi
-                FAILURES="$FAILURES { \"url\": \"$URL\", \"code\": $STATUS, \"status\": \"$STATUS_DESCR\", \"file\": \"$FILE\" }"
-                FAILURES_COUNT=$((FAILURES_COUNT+1))
-            fi
-        else 
+            # Case: Status code is not in the list of successful code...
             if [[ $WARNING_CODES != *"$STATUS"* ]]; then
-                echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u2705"
+                # Case: Status code should be treated as a failure...
+                echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u274C"
+                ## Add the URL to the list of broken links if not already there:
+                if [[ $FAILURES != *"$URL"* ]]; then
+                    # Append comma if not empty:
+                    if [ "$FAILURES" != "[" ]; then
+                        FAILURES="$FAILURES,"
+                    fi
+                    FAILURES="$FAILURES { \"url\": \"$URL\", \"code\": $STATUS, \"status\": \"$STATUS_DESCR\", \"file\": \"$FILE\" }"
+                    FAILURES_COUNT=$((FAILURES_COUNT+1))
+                fi
             else
+                # Case: Status code should be treated as a warning...
                 echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u26A0"
                 ## Add the URL to the list of warnings if not already there:
                 if [[ $WARNINGS != *"$URL"* ]]; then
@@ -173,6 +174,9 @@ for FILE in $FILES; do
                     WARNINGS_COUNT=$((WARNINGS_COUNT+1))
                 fi
             fi
+        else 
+            # Case: Status code should be treated as a success...
+            echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u2705"
         fi
     done
 done
