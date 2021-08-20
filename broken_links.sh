@@ -2,6 +2,86 @@
 # Find all URLs in a directory and check if they are broken.
 #
 
+# Define a function to map a status code to a human readable string.
+#
+# $1 - The status code.
+#
+# Returns a human readable string.
+#
+function status_code_to_string()
+{
+    case $1 in
+        200)
+            echo "OK"
+            ;;
+        201)
+            echo "Created"
+            ;;
+        202)
+            echo "Accepted"
+            ;;
+        203)
+            echo "Non-Authoritative Information"
+            ;;
+        204)
+            echo "No Content"
+            ;;
+        205)
+            echo "Reset Content"
+            ;;
+        206)
+            echo "Partial Content"
+            ;;
+        207) 
+            echo "Multi-Status"
+            ;;
+        208)
+            echo "Already Reported"
+            ;;
+        226)
+            echo "IM Used"
+            ;;
+        301)
+            echo "Moved Permanently"
+            ;;
+        302)
+            echo "Found"
+            ;;
+        303)
+            echo "See Other"
+            ;;
+        304)
+            echo "Not Modified"
+            ;;
+        305)
+            echo "Use Proxy"
+            ;;
+        306)
+            echo "Switch Proxy"
+            ;;
+        307)
+            echo "Temporary Redirect"
+            ;;
+        308)
+            echo "Permanent Redirect"
+            ;;
+        400)
+            echo "Bad Request"
+            ;;
+        401)
+            echo "Unauthorized"
+            ;;
+        403)
+            echo "Forbidden"
+            ;;
+        404)
+            echo "Not Found"
+            ;;  
+        429)
+            echo "Too Many Requests"
+            ;;
+}
+
 # Extract from first argument list of status codes that should be treated as a succesful.
 SUCCESS_CODES=$1
 
@@ -54,20 +134,20 @@ for FILE in $FILES; do
         STATUS=`curl -I -s -o /dev/null -w "%{http_code}" "$URL"`
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [[ $SUCCESS_CODES != *"$STATUS"* ]]; then
-            echo -e "Status code for $URL is $STATUS \u274C"
+            echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u274C"
             ## Add the URL to the list of broken links if not already there:
             if [[ $FAILURES != *"$URL"* ]]; then
                 FAILURES="$FAILURES $URL\n"
             fi
         else 
             if [[ $WARNING_CODES != *"$STATUS"* ]]; then
-                echo -e "Status code for $URL is $STATUS \u2705"
+                echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u2705"
+            else
+                echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u26A0"
                 ## Add the URL to the list of warnings if not already there:
                 if [[ $WARNINGS != *"$URL"* ]]; then
                     WARNINGS="$WARNINGS $URL\n"
                 fi
-            else
-                echo -e "Status code for $URL is $STATUS \u26A0"
             fi
         fi
     done
