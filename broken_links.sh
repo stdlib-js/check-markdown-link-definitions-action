@@ -5,11 +5,17 @@
 # Extract from first argument list of status codes that should be treated as a succesful.
 SUCCESS_CODES=$1
 
+echo "Status codes to treat as successful: $SUCCESS_CODES"
+
 # Extract from second argument list of status codes that should be treated as a warning.
 WARNING_CODES=$2
 
+echo "Status codes to treat as warnings: $WARNING_CODES"
+
 # Extract from third argument regular expression for URLs that should be ignored.
 EXCLUDE_REGEX=$3
+
+echo "Regular expression for URLs to exclude: $EXCLUDE_REGEX"
 
 # Check if the third argument is a directory:
 if [ ! -d "$4" ]; then
@@ -45,7 +51,7 @@ for FILE in $FILES; do
         STATUS=`curl -I -s -o /dev/null -w "%{http_code}" "$URL"`
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [[ $SUCCESS_CODES != *"$STATUS"* ]]; then
-            echo -e "Status code for $URL is $STATUS \u2713"
+            echo -e "Status code for $URL is $STATUS \u274C"
             ## Add the URL to the list of broken links if not already there:
             if [[ $BROKEN_LINKS != *"$URL"* ]]; then
                 BROKEN_LINKS="$BROKEN_LINKS $URL\n"
