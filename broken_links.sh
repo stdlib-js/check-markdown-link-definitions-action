@@ -145,30 +145,31 @@ for FILE in $FILES; do
         fi
         # Check if the URL is broken:
         STATUS=`curl -I -s -o /dev/null -w "%{http_code}" "$URL"`
+        STATUS_DESCR=`status_code_to_string $STATUS`
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [[ $SUCCESS_CODES != *"$STATUS"* ]]; then
-            echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u274C"
+            echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u274C"
             ## Add the URL to the list of broken links if not already there:
             if [[ $FAILURES != *"$URL"* ]]; then
                 # Append comma if not empty:
                 if [ "$FAILURES" != "[" ]; then
                     FAILURES="$FAILURES,"
                 fi
-                FAILURES='$FAILURES { "url": "$URL", "status": "$STATUS", "file": "$FILE" }'
+                FAILURES='$FAILURES { "url": "$URL", "code": $STATUS, "status": "$STATUS_DESCR", "file": "$FILE" }'
                 FAILURES_COUNT=$((FAILURES_COUNT+1))
             fi
         else 
             if [[ $WARNING_CODES != *"$STATUS"* ]]; then
-                echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u2705"
+                echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u2705"
             else
-                echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u26A0"
+                echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u26A0"
                 ## Add the URL to the list of warnings if not already there:
                 if [[ $WARNINGS != *"$URL"* ]]; then
                     # Append comma if not empty:
                     if [ "$WARNINGS" != "[" ]; then
                         WARNINGS="$WARNINGS,"
                     fi
-                    WARNINGS='$WARNINGS { "url": "$URL", "status": "$STATUS", "file": "$FILE" }'
+                    WARNINGS='$WARNINGS { "url": "$URL", "code": $STATUS, "status": "$STATUS_DESCR", "file": "$FILE" }'
                     WARNINGS_COUNT=$((WARNINGS_COUNT+1))
                 fi
             fi
@@ -184,6 +185,9 @@ WARNINGS="$WARNINGS ]"
 
 echo "Total number of broken links: $FAILURES_COUNT"
 echo "Total number of warnings: $WARNINGS_COUNT"
+
+# Print the list of broken links:
+echo $FAILURES
 
 # Assign the list indicating broken links to the `failures` output variable:
 echo "::set-output name=failures::'$FAILURES'"
