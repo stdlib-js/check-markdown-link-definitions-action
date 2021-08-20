@@ -14,8 +14,10 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - run: |
+        echo "Starting search for broken links in Markdown files..."
     - id: broken-links
-      run: echo "::set-output name=links::$( ${{ github.action_path }}/broken_links.sh ${{ inputs.directory }} )"
+      run: ${{ github.action_path }}/broken_links.sh ${{ inputs.directory }} )
       shell: bash
     - id: action-status
       run: |

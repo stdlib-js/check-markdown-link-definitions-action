@@ -19,12 +19,15 @@ BROKEN_LINKS=""
 
 # Loop through all files...
 for FILE in $FILES; do
+    echo "Checking $FILE for broken links..."
     # Find all URLs in the file:
     URLS=`grep -Po "(?<=\]: )https?://[^ ]*" "$FILE"`
+    echo Number of links in $FILE: `echo $URLS | wc -w`
     # Loop through all URLs...
     for URL in $URLS; do
         # Check if the URL is broken:
         STATUS=`curl -I -s -o /dev/null -w "%{http_code}" "$URL"`
+        echo "Status code for $URL: $STATUS"
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [ "$STATUS" != "200" ] && [ "$STATUS" != "301" ] && [ "$STATUS" != "302" ]; then
             ## Add the URL to the list of broken links if not already there:
@@ -36,4 +39,4 @@ for FILE in $FILES; do
 done
 
 # Print the list of broken links to the console
-echo -e $BROKEN_LINKS
+echo "::set-output name=links::$(echo -e $BROKEN_LINKS)"
