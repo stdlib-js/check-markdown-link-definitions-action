@@ -186,11 +186,8 @@ WARNINGS="$WARNINGS ]"
 echo "Total number of broken links: $FAILURES_COUNT"
 echo "Total number of warnings: $WARNINGS_COUNT"
 
-# Print the list of broken links:
-echo $FAILURES
-
 # Assign the list indicating broken links to the `failures` output variable:
-echo ::set-output name=failures::'$FAILURES'
+echo ::set-output name=failures::"$FAILURES"
 
 # Assign the list indicating warnings to the `warnings` output variable:
-echo ::set-output name=warnings::'$WARNINGS'
+echo ::set-output name=warnings::"$WARNINGS"
