@@ -155,7 +155,7 @@ for FILE in $FILES; do
                 if [ "$FAILURES" != "[" ]; then
                     FAILURES="$FAILURES,"
                 fi
-                FAILURES='$FAILURES { "url": "$URL", "code": $STATUS, "status": "$STATUS_DESCR", "file": "$FILE" }'
+                FAILURES="$FAILURES { \"url\": \"$URL\", \"code\": $STATUS, \"status\": \"$STATUS_DESCR\", \"file\": \"$FILE\" }"
                 FAILURES_COUNT=$((FAILURES_COUNT+1))
             fi
         else 
@@ -169,7 +169,7 @@ for FILE in $FILES; do
                     if [ "$WARNINGS" != "[" ]; then
                         WARNINGS="$WARNINGS,"
                     fi
-                    WARNINGS='$WARNINGS { "url": "$URL", "code": $STATUS, "status": "$STATUS_DESCR", "file": "$FILE" }'
+                    WARNINGS="$WARNINGS { \"url\": \"$URL\", \"code\": $STATUS, \"status\": \"$STATUS_DESCR\", \"file\": \"$FILE\" }"
                     WARNINGS_COUNT=$((WARNINGS_COUNT+1))
                 fi
             fi
