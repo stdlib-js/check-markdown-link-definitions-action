@@ -10,10 +10,18 @@ outputs:
     value: ${{ steps.broken-links.outputs.links }}
   status:
     description: "Status of the completed action (either `success` or `error`)"
-    value: ${{ steps.broken-links.outputs.links === '' ? 'success' : 'error' }}
+    value: ${{ steps.broken-links.outputs.status }}
 runs:
   using: "composite"
   steps:
     - id: broken-links
       run: echo "::set-output name=links::$( ${{ github.action_path }}/broken_links.sh ${{ inputs.directory }} )"
       shell: bash
+    - id: build-status
+      run: |
+        if [ ${{ steps.broken-links.outputs.links }} == '' ]
+        then
+            echo "::set-output name=status::success"
+        else
+            echo "::set-output name=status::error"
+        fi
