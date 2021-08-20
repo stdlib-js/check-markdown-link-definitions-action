@@ -24,7 +24,7 @@ jobs:
       # Print out the results:
       - run: |
           echo "Broken links:"
-          echo -e ${{ steps.broken-links.outputs.failures }}
+          echo '${{ steps.broken-links.outputs.failures }}'
           echo "Warnings:"
-          echo -e ${{ steps.broken-links.outputs.warnings }}
+          echo '${{ steps.broken-links.outputs.warnings }}'
           echo Status: ${{ steps.broken-links.outputs.status }}
