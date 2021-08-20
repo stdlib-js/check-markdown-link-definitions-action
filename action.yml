@@ -8,6 +8,9 @@ outputs:
   links:
     description: "New-line separated list of broken links"
     value: ${{ steps.broken-links.outputs.links }}
+  status:
+    description: "Status of the completed action (either `success` or `error`)"
+    value: ${{ steps.broken-links.outputs.links === '' ? 'success' : 'error' }}
 runs:
   using: "composite"
   steps:
