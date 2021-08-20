@@ -16,7 +16,7 @@ if [ ! -d "$4" ]; then
     # If not, use the current directory:
     DIR="$(pwd)"
 else
-    # If it is, use the first argument:
+    # If it is, use the fourth argument:
     DIR="$4"
 fi
 
@@ -50,10 +50,12 @@ for FILE in $FILES; do
             if [[ $BROKEN_LINKS != *"$URL"* ]]; then
                 BROKEN_LINKS="$BROKEN_LINKS $URL\n"
             fi
-        else if [[ $WARNING_CODES != *"$STATUS"* ]]; then
-            echo -e "Status code for $URL: $STATUS \u26A0"
-        else
-            echo -e "Status code for $URL: $STATUS \u2705"
+        else 
+            if [[ $WARNING_CODES != *"$STATUS"* ]]; then
+                echo -e "Status code for $URL: $STATUS \u26A0"
+            else
+                echo -e "Status code for $URL: $STATUS \u2705"
+            fi
         fi
     done
 done
