@@ -18,15 +18,15 @@ limitations under the License.
 
 -->
 
-# Broken Markdown URL Definitions
+# Check Markdown Link Definitions
 
-> A GitHub action to find all broken external URL definitions in the Markdown files of a directory.
+> A GitHub action to check all external URL definitions in the Markdown files of a directory.
 
 ## Example Workflow
 
 ```yml
 # Workflow name:
-name: Find broken links in the current directory
+name: Check Markdown link definitions in a directory
 
 # Workflow triggers:
 on:
@@ -34,7 +34,7 @@ on:
 
 # Workflow jobs:
 jobs:
-  find_broken_links:
+  check_markdown_links:
     # Define the type of virtual host machine on which to run the job:
     runs-on: ubuntu-latest
 
@@ -42,17 +42,17 @@ jobs:
     steps:
       # Checkout the current branch:
       - uses: actions/checkout@v2
-      # Run the command to check for broken links:
-      - id: broken-links
-        uses: stdlib-js/broken-markdown-url-definitions-action@v1.0
+      # Run the command to check Markdown links:
+      - id: check-links
+        uses: stdlib-js/check-markdown-link-definitions-action@v1.0
         with:
           directory: fixtures
       # Print out the results:
       - run: |
-          echo ${{ steps.broken-links.outputs.links }}
-          echo Status: ${{ steps.broken-links.outputs.status }}
+          echo ${{ steps.check-links.outputs.links }}
+          echo Status: ${{ steps.check-links.outputs.status }}
       # Fail the workflow if the status is not "success":
-      - if: ${{ steps.broken-links.outputs.status }} != 'success'
+      - if: ${{ steps.check-links.outputs.status }} != 'success'
         run: |
           exit 1
 ```
@@ -60,7 +60,7 @@ jobs:
 
 ## Inputs
 
--   `directory` (string) : directory containing Markdown files to recursively check for broken URL definitions.
+-   `directory` (string) : directory containing Markdown files to recursively check URL definitions.
 -   `exclude` (string) : regular expression pattern for URLs that should be skipped. 
 -   `successCodes` (array of integers) : array of HTTP status codes that should be considered a success. Defaults to `[200, 201, 202, 203, 204, 205, 206, 207, 208, 226]`.
 -   `warningCodes` (array of integers) : array of HTTP status codes that should be considered a warning. Defaults to `[300, 301, 302, 303, 304, 305, 306, 307, 308]`.
@@ -68,12 +68,12 @@ jobs:
 
 ## Outputs 
 
--  `failures` (JSON object array): array of JSON objects for URLS considered broken containing the following properties:
+-  `failures` (JSON object array): array of JSON objects for URLs considered broken containing the following properties:
     -   `url` (string) : broken link.
     -   `code` (number) : HTTP status code received for the broken link.
     -   `status` (string) : description of the HTTP status code.
     -   `file` (string) : path to the Markdown file that contains the broken URL definition.
--  `warnings` (JSON object array): array of JSON objects for URLs triggering warnings containing the following properties:
+-  `warnings` (JSON object array): array of JSON objects for URLs triggering warnings containing the following properties:URL
     -   `url` (string) : link triggering warning.
     -   `code` (number) : HTTP status code received for the link.
     -   `status` (string) : description of the HTTP status code.

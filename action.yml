@@ -1,4 +1,4 @@
-name: 'Broken Markdown URL Definitions'
+name: 'Check Markdown Link Definitions'
 description: 'Find all broken links in the files of a directory'
 inputs:
   directory:
@@ -19,10 +19,10 @@ inputs:
 outputs:
   failures:
     description: "New-line separated list of failing URLs indicating broken links"
-    value: ${{ steps.broken-links.outputs.failures }}
+    value: ${{ steps.check-links.outputs.failures }}
   warnings:
     description: "New-line separated list of warnings"
-    value: ${{ steps.broken-links.outputs.warnings }}
+    value: ${{ steps.check-links.outputs.warnings }}
   status:
     description: "Status of the completed action (either `success` or `failure`)"
     value: ${{ steps.action-status.outputs.status }}
@@ -30,14 +30,14 @@ runs:
   using: "composite"
   steps:
     - run: |
-        echo "Starting search for broken links in Markdown files..."
+        echo "Starting to check links in Markdown files..."
       shell: bash
-    - id: broken-links
-      run: ${{ github.action_path }}/broken_links.sh "${{ inputs.successCodes }}" "${{ inputs.warningCodes }}" "${{ inputs.exclude }}" ${{ inputs.directory }}
+    - id: check-links
+      run: ${{ github.action_path }}/check_links.sh "${{ inputs.successCodes }}" "${{ inputs.warningCodes }}" "${{ inputs.exclude }}" ${{ inputs.directory }}
       shell: bash
     - id: action-status
       run: |
-        if [ ${{ steps.broken-links.outputs.failures }} == '' ]
+        if [ ${{ steps.check-links.outputs.failures }} == '' ]
         then
             echo "::set-output name=status::success"
         else

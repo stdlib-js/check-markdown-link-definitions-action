@@ -7,7 +7,7 @@ on:
 
 # Workflow jobs:
 jobs:
-  find_broken_links:
+  check_markdown_links:
     # Define the type of virtual host machine on which to run the job:
     runs-on: ubuntu-latest
 
@@ -15,7 +15,7 @@ jobs:
     steps:
       # Checkout the current branch:
       - uses: actions/checkout@v2
-      # Run the command to check for broken links:
+      # Run the command to check Markdown links:
       - id: broken-links
         uses: ./
         with:
