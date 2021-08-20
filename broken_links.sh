@@ -150,7 +150,11 @@ for FILE in $FILES; do
             echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u274C"
             ## Add the URL to the list of broken links if not already there:
             if [[ $FAILURES != *"$URL"* ]]; then
-                FAILURES="$FAILURES $URL\n"
+                # Append comma if not empty:
+                if [ -n "$FAILURES" ]; then
+                    FAILURES="$FAILURES,"
+                fi
+                FAILURES='$FAILURES { "url": $URL, "status": "$STATUS" }'
                 FAILURES_COUNT=$((FAILURES_COUNT+1))
             fi
         else 
@@ -160,7 +164,7 @@ for FILE in $FILES; do
                 echo -e "Status code for $URL is $STATUS - $(status_code_to_string $STATUS) \u26A0"
                 ## Add the URL to the list of warnings if not already there:
                 if [[ $WARNINGS != *"$URL"* ]]; then
-                    WARNINGS="$WARNINGS $URL\n"
+                    WARNINGS='$WARNINGS { "url": $URL, "status": "$STATUS" }'
                     WARNINGS_COUNT=$((WARNINGS_COUNT+1))
                 fi
             fi
@@ -172,7 +176,7 @@ echo "Total number of broken links: $FAILURES_COUNT"
 echo "Total number of warnings: $WARNINGS_COUNT"
 
 # Assign the list indicating broken links to the `failures` output variable:
-echo "::set-output name=failures::$(echo -e $FAILURES)"
+echo "::set-output name=failures::$(echo '[ $FAILURES ]' )"
 
 # Assign the list indicating warnings to the `warnings` output variable:
-echo "::set-output name=warnings::$(echo -e $WARNINGS)"
+echo "::set-output name=warnings::$(echo '[ $WARNINGS ]' )"
