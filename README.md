@@ -61,6 +61,9 @@ jobs:
 ## Inputs
 
 -   `directory` (string) : directory containing Markdown files to recursively check for broken URL definitions.
+-   `exclude` (string) : regular expression pattern for URLs that should be skipped. 
+-   `successCodes` (array of integers) : array of HTTP status codes that should be considered a success. Defaults to `[200, 201, 202, 203, 204, 205, 206, 207, 208, 226]`.
+-   `warningCodes` (array of integers) : array of HTTP status codes that should be considered a warning. Defaults to `[300, 301, 302, 303, 304, 305, 306, 307, 308]`.
 
 
 ## Outputs 

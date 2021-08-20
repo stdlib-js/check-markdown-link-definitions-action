@@ -20,6 +20,7 @@ jobs:
         uses: ./
         with:
           directory: fixtures
+          exclude: https://github.com/stdlib-js/stdlib/tree/develop/lib/node_modules
       # Print out the results:
       - run: |
           echo ${{ steps.broken-links.outputs.links }}
