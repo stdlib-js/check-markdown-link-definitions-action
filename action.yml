@@ -30,7 +30,7 @@ runs:
         echo "Starting search for broken links in Markdown files..."
       shell: bash
     - id: broken-links
-      run: ${{ github.action_path }}/broken_links.sh "{{ inputs.successCodes }}" "{{ inputs.warningCodes }}"  "{{ inputs.exclude }}" ${{ inputs.directory }}
+      run: ${{ github.action_path }}/broken_links.sh "${{ inputs.successCodes }}" "${{ inputs.warningCodes }}" "${{ inputs.exclude }}" ${{ inputs.directory }}
       shell: bash
     - id: action-status
       run: |
