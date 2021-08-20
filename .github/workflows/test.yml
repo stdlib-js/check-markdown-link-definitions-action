@@ -8,6 +8,5 @@ jobs:
       - uses: actions/checkout@v2
       - id: broken-links
         uses: ./
-        with:
       - run: echo ${{ steps.broken-links.outputs.links }}
         shell: bash
