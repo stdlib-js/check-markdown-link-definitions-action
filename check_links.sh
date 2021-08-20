@@ -132,7 +132,7 @@ WARNINGS_COUNT=0
 for FILE in $FILES; do
     echo "Checking $FILE for broken links..."
     # Find all URLs in the file:
-    URLS=`grep -Po "(?<=\]: )https?://[^ ]*" "$FILE"`
+    URLS=`grep -Po "^\[[^[]+\]: \Khttps?://[^ ]*" "$FILE"`
     echo Number of links in $FILE: `echo $URLS | wc -w`
     # Loop through all URLs...
     for URL in $URLS; do

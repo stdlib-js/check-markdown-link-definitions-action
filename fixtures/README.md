@@ -2,6 +2,24 @@
 
 Inline links such as [google.com](http://wrong-google-url.com) are not checked.
 
+```javascript
+/**
+* Boop [beep][beep].
+*
+* [beep]: https://beep.com
+* [beep]: https://beep.com
+*
+* @returns {string} a value
+*
+* @example
+* var str = beep();
+* // returns 'boop'
+*/
+function beep() {
+    return 'boop';
+}
+```
+
 [broken-link]: https://this-link-is-broken.com
 
 [working-link]: https://github.com
