@@ -12,7 +12,7 @@ else
 fi
 
 # Find all files in the directory:
-FILES=$(find $DIR "*.md" -type f)
+FILES=$(find $DIR -name '*.md' -type f)
 
 # Define list of broken links:
 BROKEN_LINKS=""
@@ -20,7 +20,7 @@ BROKEN_LINKS=""
 # Loop through all files
 for FILE in $FILES; do
     # Find all URLs in the file
-    URLS=`grep -Eo "https?://[^ ]*" "$FILE"`
+    URLS=`grep -Po "(?<=\]: )https?://[^ ]*" "$FILE"`
     # Loop through all URLs
     for URL in $URLS; do
         # Check if the URL is broken
