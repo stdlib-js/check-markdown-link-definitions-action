@@ -1,4 +1,4 @@
-name: 
+name: 'Broken Markdown URL Definitions'
 description: 'Find all broken links in the files of a directory'
 inputs:
   directory:
