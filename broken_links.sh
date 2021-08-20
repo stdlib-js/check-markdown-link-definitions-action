@@ -29,13 +29,13 @@ for FILE in $FILES; do
         STATUS=`curl -I -s -o /dev/null -w "%{http_code}" "$URL"`
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [ "$STATUS" != "200" ] && [ "$STATUS" != "301" ] && [ "$STATUS" != "302" ]; then
-            echo "Status code for $URL: $STATUS \u274C"
+            echo -e "Status code for $URL: $STATUS \u274C"
             ## Add the URL to the list of broken links if not already there:
             if [[ $BROKEN_LINKS != *"$URL"* ]]; then
                 BROKEN_LINKS="$BROKEN_LINKS $URL\n"
             fi
         else
-            echo "Status code for $URL: $STATUS \u2705"
+            echo -e "Status code for $URL: $STATUS \u2705"
         fi
     done
 done
