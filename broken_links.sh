@@ -12,7 +12,7 @@ else
 fi
 
 # Find all files in the directory:
-FILES=$(find $DIR -type f)
+FILES=$(find $DIR "*.md" -type f)
 
 # Define list of broken links:
 BROKEN_LINKS=""

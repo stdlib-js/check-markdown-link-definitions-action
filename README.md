@@ -26,7 +26,7 @@ limitations under the License.
 
 ```yml
 # Workflow name:
-name: Push Changes to Standalone Repositories
+name: Find broken links in the current directory
 
 # Workflow triggers:
 on:
@@ -35,9 +35,6 @@ on:
 # Workflow jobs:
 jobs:
   find_broken_links:
-    # Job name:
-    name: Find broken links in the current directory
-
     # Define the type of virtual host machine on which to run the job:
     runs-on: ubuntu-latest
 
