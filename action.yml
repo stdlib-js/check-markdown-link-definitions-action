@@ -9,7 +9,7 @@ outputs:
     description: "New-line separated list of broken links"
     value: ${{ steps.broken-links.outputs.links }}
   status:
-    description: "Status of the completed action (either `success` or `error`)"
+    description: "Status of the completed action (either `success` or `failure`)"
     value: ${{ steps.broken-links.outputs.status }}
 runs:
   using: "composite"
@@ -23,6 +23,6 @@ runs:
         then
             echo "::set-output name=status::success"
         else
-            echo "::set-output name=status::error"
+            echo "::set-output name=status::failure"
         fi
       shell: bash

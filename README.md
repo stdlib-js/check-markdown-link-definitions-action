@@ -66,7 +66,7 @@ jobs:
 ## Outputs 
 
 -  `links` (array of strings): List of broken URL definitions.
--  `status` (string): Status of the job.
+-  `status` (string): Status of the job (`success` or `failure`).
 
 
 ## License
