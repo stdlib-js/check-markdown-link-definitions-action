@@ -37,7 +37,7 @@ runs:
       shell: bash
     - id: action-status
       run: |
-        if [ ${{ steps.check-links.outputs.failures }} == '' ]
+        if [ ${{ steps.check-links.outputs.failures }} == '[ ]' ]
         then
             echo "::set-output name=status::success"
         else
