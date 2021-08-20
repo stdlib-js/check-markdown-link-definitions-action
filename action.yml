@@ -19,7 +19,7 @@ inputs:
 outputs:
   failures:
     description: "New-line separated list of failing URLs indicating broken links"
-    value: ${{ steps.broken-links.outputs.links }}
+    value: ${{ steps.broken-links.outputs.failures }}
   warnings:
     description: "New-line separated list of warnings"
     value: ${{ steps.broken-links.outputs.warnings }}
