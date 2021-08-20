@@ -60,7 +60,7 @@ jobs:
 
 ## Inputs
 
--   `directory` (string) : directory containing Markdown files to recursively check for broken URL definitions
+-   `directory` (string) : directory containing Markdown files to recursively check for broken URL definitions.
 
 
 ## Outputs 
