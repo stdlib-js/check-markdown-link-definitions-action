@@ -11,6 +11,8 @@
 function status_code_to_string()
 {
     case $1 in
+        000)
+            echo "Failed"
         200)
             echo "OK"
             ;;
@@ -116,8 +118,14 @@ FILES=$(find $DIR -name '*.md' -type f)
 # Define list of broken links:
 FAILURES=""
 
+# Define a count for the number of broken links:
+FAILURES_COUNT=0
+
 # Define list of warnings:
 WARNINGS=""
+
+# Define a count for the number of warnings:
+WARNINGS_COUNT=0
 
 # Loop through all files...
 for FILE in $FILES; do
@@ -142,6 +150,7 @@ for FILE in $FILES; do
             ## Add the URL to the list of broken links if not already there:
             if [[ $FAILURES != *"$URL"* ]]; then
                 FAILURES="$FAILURES $URL\n"
+                FAILURES_COUNT=$((FAILURES_COUNT+1))
             fi
         else 
             if [[ $WARNING_CODES != *"$STATUS"* ]]; then
@@ -151,11 +160,15 @@ for FILE in $FILES; do
                 ## Add the URL to the list of warnings if not already there:
                 if [[ $WARNINGS != *"$URL"* ]]; then
                     WARNINGS="$WARNINGS $URL\n"
+                    WARNINGS_COUNT=$((WARNINGS_COUNT+1))
                 fi
             fi
         fi
     done
 done
+
+echo "Total number of broken links: $FAILURES_COUNT"
+echo "Total number of warnings: $WARNINGS_COUNT"
 
 # Assign the list indicating broken links to the `failures` output variable:
 echo "::set-output name=failures::$(echo -e $FAILURES)"
