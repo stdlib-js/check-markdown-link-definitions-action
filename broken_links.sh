@@ -13,6 +13,7 @@ function status_code_to_string()
     case $1 in
         000)
             echo "Failed"
+            ;;
         200)
             echo "OK"
             ;;
