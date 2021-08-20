@@ -17,17 +17,20 @@ FILES=$(find $DIR -name '*.md' -type f)
 # Define list of broken links:
 BROKEN_LINKS=""
 
-# Loop through all files
+# Loop through all files...
 for FILE in $FILES; do
-    # Find all URLs in the file
+    # Find all URLs in the file:
     URLS=`grep -Po "(?<=\]: )https?://[^ ]*" "$FILE"`
-    # Loop through all URLs
+    # Loop through all URLs...
     for URL in $URLS; do
-        # Check if the URL is broken
+        # Check if the URL is broken:
         STATUS=`curl -I -s -o /dev/null -w "%{http_code}" "$URL"`
-        # If the status is not 200, add the URL to the list of broken links
-        if [ "$STATUS" != "200" ]; then
-            BROKEN_LINKS="$BROKEN_LINKS$URL\n"
+        # If the status is 200, 301, or 302, add the URL to the list of broken links:
+        if [ "$STATUS" != "200" ] && [ "$STATUS" != "301" ] && [ "$STATUS" != "302" ]; then
+            ## Add the URL to the list of broken links if not already there:
+            if [[ $BROKEN_LINKS != *"$URL"* ]]; then
+                BROKEN_LINKS="$BROKEN_LINKS $URL\n"
+            fi
         fi
     done
 done
