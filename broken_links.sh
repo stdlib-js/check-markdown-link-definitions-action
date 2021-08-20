@@ -154,7 +154,7 @@ for FILE in $FILES; do
                 if [ "$FAILURES" != "[" ]; then
                     FAILURES="$FAILURES,"
                 fi
-                FAILURES='$FAILURES { "url": $URL, "status": "$STATUS" }'
+                FAILURES='$FAILURES { "url": "$URL", "status": "$STATUS", "file": "$FILE" }'
                 FAILURES_COUNT=$((FAILURES_COUNT+1))
             fi
         else 
@@ -168,7 +168,7 @@ for FILE in $FILES; do
                     if [ "$WARNINGS" != "[" ]; then
                         WARNINGS="$WARNINGS,"
                     fi
-                    WARNINGS='$WARNINGS { "url": $URL, "status": "$STATUS" }'
+                    WARNINGS='$WARNINGS { "url": "$URL", "status": "$STATUS", "file": "$FILE" }'
                     WARNINGS_COUNT=$((WARNINGS_COUNT+1))
                 fi
             fi
@@ -186,7 +186,7 @@ echo "Total number of broken links: $FAILURES_COUNT"
 echo "Total number of warnings: $WARNINGS_COUNT"
 
 # Assign the list indicating broken links to the `failures` output variable:
-echo "::set-output name=failures::$FAILURES"
+echo "::set-output name=failures::'$FAILURES'"
 
 # Assign the list indicating warnings to the `warnings` output variable:
-echo "::set-output name=warnings::$WARNINGS"
+echo "::set-output name=warnings::'$WARNINGS'"
