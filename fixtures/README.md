@@ -1,4 +1,4 @@
-> A [broken link][broken-link] and a [working link][working-link].]
+> A [broken link][broken-link] and a [working link][working-link].
 
 Inline links such as [google.com](http://wrong-google-url.com) are not checked.
 
