@@ -16,6 +16,7 @@ runs:
   steps:
     - run: |
         echo "Starting search for broken links in Markdown files..."
+      shell: bash
     - id: broken-links
       run: ${{ github.action_path }}/broken_links.sh ${{ inputs.directory }} )
       shell: bash
