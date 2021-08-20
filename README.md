@@ -54,7 +54,10 @@ jobs:
       - run: |
           echo ${{ steps.broken-links.outputs.links }}
           echo Status: ${{ steps.broken-links.outputs.status }}
-        shell: bash
+      # Fail the workflow if the status is not "success":
+      - if: ${{ steps.broken-links.outputs.status }} != 'success'
+        run: |
+          exit 1
 ```
 
 
