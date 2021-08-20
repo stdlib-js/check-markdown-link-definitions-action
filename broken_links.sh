@@ -80,6 +80,10 @@ function status_code_to_string()
         429)
             echo "Too Many Requests"
             ;;
+        *)
+            echo "Unknown HTTP Status Code"
+            ;;
+    esac
 }
 
 # Extract from first argument list of status codes that should be treated as a succesful.
