@@ -11,8 +11,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
     - id: broken-links
       run: echo "::set-output name=links::$( ${{ github.action_path }}/broken_links.sh ${{ inputs.directory }} )"
       shell: bash
