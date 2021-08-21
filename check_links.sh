@@ -144,7 +144,7 @@ for FILE in $FILES; do
             fi
         fi
         # Check if the URL is broken:
-        STATUS=`curl -A "Mozilla/4.0" -s -G -o /dev/null -w "%{http_code}" "$URL"`
+        STATUS=`curl -A "Mozilla/5.0" -s -G -o /dev/null -w "%{http_code}" "$URL"`
         STATUS_DESCR=`status_code_to_string $STATUS`
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [[ $SUCCESS_CODES != *"$STATUS"* ]]; then
