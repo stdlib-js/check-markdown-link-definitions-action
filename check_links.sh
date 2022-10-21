@@ -199,7 +199,7 @@ echo "## Warnings" >> $GITHUB_STEP_SUMMARY
 echo $WARNINGS | md-table -c >> $GITHUB_STEP_SUMMARY
 
 # Assign the list indicating broken links to the `failures` output variable:
-echo "failures='$(echo $FAILURES)'" >> GITHUB_OUTPUT
+echo "failures=$FAILURES" >> GITHUB_OUTPUT
 
 # Assign the list indicating warnings to the `warnings` output variable:
-echo "warnings='$(echo $WARNINGS)'" >> GITHUB_OUTPUT
+echo "warnings=$WARNINGS" >> GITHUB_OUTPUT
