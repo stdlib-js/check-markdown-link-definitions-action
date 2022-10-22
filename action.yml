@@ -26,6 +26,9 @@ outputs:
   status:
     description: "Status of the completed action (either `success` or `failure`)"
     value: ${{ steps.action-status.outputs.status }}
+  all_links:
+    description: "New-line separated list of all links"
+    value: ${{ steps.check-links.outputs.all_links }}
 runs:
   using: "composite"
   steps:
