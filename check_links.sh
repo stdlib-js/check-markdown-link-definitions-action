@@ -117,7 +117,7 @@ fi
 FILES=$(find $DIR -name '*.md' -type f)
 
 # Define list of all URLs:
-ALL_URLS="["
+ALL_LINKS="["
 
 # Define list of broken links:
 FAILURES="["
@@ -195,12 +195,12 @@ for FILE in $FILES; do
         fi
         
         # Add the URL to the list of all URLs:
-        if [[ $ALL_URLS != *"$URL"* ]]; then
+        if [[ $ALL_LINKS != *"$URL"* ]]; then
             # Append comma if not empty:
-            if [ "$ALL_URLS" != "[" ]; then
-                ALL_URLS="$ALL_URLS,"
+            if [ "$ALL_LINKS" != "[" ]; then
+                ALL_LINKS="$ALL_LINKS,"
             fi
-            ALL_URLS="$ALL_URLS { \"url\": \"$URL\", \"id\": \"$ID\", \"file\": \"$FILE\" }"
+            ALL_LINKS="$ALL_LINKS { \"url\": \"$URL\", \"id\": \"$ID\", \"file\": \"$FILE\" }"
         fi
     done
 done
@@ -212,7 +212,7 @@ FAILURES="$FAILURES ]"
 WARNINGS="$WARNINGS ]"
 
 # Add closing bracket to the list of all URLs:
-ALL_URLS="$ALL_URLS ]"
+ALL_LINKS="$ALL_LINKS ]"
 
 echo "# Summary" >> $GITHUB_STEP_SUMMARY
 
@@ -231,5 +231,5 @@ echo "failures=$FAILURES" >> $GITHUB_OUTPUT
 # Assign the list indicating warnings to the `warnings` output variable:
 echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
 
-# Assign list of all URLs to the `all_urls` output variable:
-echo "all_urls=$ALL_URLS" >> $GITHUB_OUTPUT
+# Assign list of all URLs to the `all_links` output variable:
+echo "all_links=$ALL_LINKS" >> $GITHUB_OUTPUT

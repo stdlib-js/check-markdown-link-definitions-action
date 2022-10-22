@@ -79,7 +79,7 @@ jobs:
     -   `status` (string) : description of the HTTP status code.
     -   `file` (string) : path to the Markdown file that contains the URL definition.
 -   `status` (string): Status of the job (`success` or `failure`).
--   `all_urls` (JSON object array): array of JSON objects for all URLs containing the following properties:
+-   `all_links` (JSON object array): array of JSON objects for all URLs containing the following properties:
     -   `url` (string) : link.
     -   `id` (string) : unique identifier for the link.
 

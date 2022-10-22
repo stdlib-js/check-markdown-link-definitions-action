@@ -28,6 +28,9 @@ jobs:
           echo "Warnings:"
           echo $WARNINGS
           echo Status: ${{ steps.broken-links.outputs.status }}
+          echo "All links:"
+          echo $LINKS
         env:
           FAILURES: ${{ steps.broken-links.outputs.failures}}
           WARNINGS: ${{ steps.broken-links.outputs.warnings}}
+          LINKS: ${{ steps.broken-links.outputs.all_links}}
