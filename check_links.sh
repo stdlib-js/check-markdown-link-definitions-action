@@ -116,6 +116,9 @@ fi
 # Find all files in the directory:
 FILES=$(find $DIR -name '*.md' -type f)
 
+# Define list of all URLs:
+ALL_URLS="["
+
 # Define list of broken links:
 FAILURES="["
 
@@ -131,11 +134,21 @@ WARNINGS_COUNT=0
 # Loop through all files...
 for FILE in $FILES; do
     echo "Checking $FILE for broken links..."
+    
     # Find all URLs in the file:
-    URLS=`grep -Po "^\[[^[]+\]: \Khttps?://[^ ]*" "$FILE"`
+    LINKS=`grep -Po "^\[[^[]+\]: https?://[^ ]*" "$FILE" | sed 's/ /%20/g'`
     echo Number of links in $FILE: `echo $URLS | wc -w`
+    
     # Loop through all URLs...
-    for URL in $URLS; do
+    for LINK in $LINKS; do
+    
+        # Extract the URL:
+        URL=`echo $LINK | grep -Po "https?://[^ ]*"`
+        
+        # Extract the identifier by stripping off the leading "[", the trailing "]:":
+        ID=`echo $LINK | grep -Po "^\[[^[]+\]:" | sed 's/\[//' | sed 's/\]://'`
+        echo "Checking $URL with identifier $ID..."
+
         # Skip in case URL matches the exclude pattern:
         if [ "$EXCLUDE_REGEX" != "none" ]; then
             if [[ "$URL" =~ $EXCLUDE_REGEX ]]; then
@@ -146,6 +159,7 @@ for FILE in $FILES; do
         # Check if the URL is broken:
         STATUS=`curl -A "Mozilla/5.0" -s -G -o /dev/null -w "%{http_code}" "$URL"`
         STATUS_DESCR=`status_code_to_string $STATUS`
+
         # If the status is 200, 301, or 302, add the URL to the list of broken links:
         if [[ $SUCCESS_CODES != *"$STATUS"* ]]; then
             # Case: Status code is not in the list of successful code...
@@ -164,6 +178,7 @@ for FILE in $FILES; do
             else
                 # Case: Status code should be treated as a warning...
                 echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u26A0"
+
                 ## Add the URL to the list of warnings if not already there:
                 if [[ $WARNINGS != *"$URL"* ]]; then
                     # Append comma if not empty:
@@ -178,6 +193,15 @@ for FILE in $FILES; do
             # Case: Status code should be treated as a success...
             echo -e "Status code for $URL is $STATUS - $STATUS_DESCR \u2705"
         fi
+        
+        # Add the URL to the list of all URLs:
+        if [[ $ALL_URLS != *"$URL"* ]]; then
+            # Append comma if not empty:
+            if [ "$ALL_URLS" != "[" ]; then
+                ALL_URLS="$ALL_URLS,"
+            fi
+            ALL_URLS="$ALL_URLS { \"url\": \"$URL\", \"id\": \"$ID\", \"file\": \"$FILE\" }"
+        fi
     done
 done
 
@@ -186,6 +210,9 @@ FAILURES="$FAILURES ]"
 
 # Add closing bracket to the list of warnings:
 WARNINGS="$WARNINGS ]"
+
+# Add closing bracket to the list of all URLs:
+ALL_URLS="$ALL_URLS ]"
 
 echo "# Summary" >> $GITHUB_STEP_SUMMARY
 
@@ -203,3 +230,6 @@ echo "failures=$FAILURES" >> $GITHUB_OUTPUT
 
 # Assign the list indicating warnings to the `warnings` output variable:
 echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
+
+# Assign list of all URLs to the `all_urls` output variable:
+echo "all_urls=$ALL_URLS" >> $GITHUB_OUTPUT

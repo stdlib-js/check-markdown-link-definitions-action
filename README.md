@@ -68,18 +68,20 @@ jobs:
 
 ## Outputs 
 
--  `failures` (JSON object array): array of JSON objects for URLs considered broken containing the following properties:
+-   `failures` (JSON object array): array of JSON objects for URLs considered broken containing the following properties:
     -   `url` (string) : broken link.
     -   `code` (number) : HTTP status code received for the broken link.
     -   `status` (string) : description of the HTTP status code.
     -   `file` (string) : path to the Markdown file that contains the broken URL definition.
--  `warnings` (JSON object array): array of JSON objects for URLs triggering warnings containing the following properties:
+-   `warnings` (JSON object array): array of JSON objects for URLs triggering warnings containing the following properties:
     -   `url` (string) : link triggering warning.
     -   `code` (number) : HTTP status code received for the link.
     -   `status` (string) : description of the HTTP status code.
     -   `file` (string) : path to the Markdown file that contains the URL definition.
--  `status` (string): Status of the job (`success` or `failure`).
-
+-   `status` (string): Status of the job (`success` or `failure`).
+-   `all_urls` (JSON object array): array of JSON objects for all URLs containing the following properties:
+    -   `url` (string) : link.
+    -   `id` (string) : unique identifier for the link.
 
 ## License
 
